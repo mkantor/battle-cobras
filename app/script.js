@@ -1,13 +1,16 @@
-var WIDTH = 15;
-var HEIGHT = 10;
 $(document).ready(function() {
-  /* Initialize grid */
-  var grid = "";
-  $("#grid").css({"height": HEIGHT*50, "width": WIDTH*50 }); 
-  for (var i = 0; i < WIDTH*HEIGHT; i++) {
-    grid = grid + '<div id="sq-' +
-       String(Math.floor(i/HEIGHT)) + '-' +
-       String(i%WIDTH) + '" class="sq"></div>';
-  }
-  $("#grid").append(grid);
+
+  Board.initialize();
+
+  /* Handle world updates. */
+  var socket = io.connect('http://localhost:3000');
+  socket.on('update', function (data) {
+    var myCell = Board.getCell(data.players.me.position);
+    myCell.element.addClass(data.players.me.team);
+  });
+
+  $('#controls .move').click(function(event) {
+    console.log('moving...', socket); // XXX
+    socket.emit('move', $(this).data());
+  });
 });

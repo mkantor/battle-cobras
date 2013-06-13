@@ -4,21 +4,24 @@
     <meta http-equiv="content-type" value="text/html;utf-8">
     <title>Battle Cobras</title>
     <link href="./style.css" rel="stylesheet" />
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-      var socket = io.connect('http://localhost:3000');
-      socket.on('news', function (data) {
-        console.log(data);
-        socket.emit('my other event', { my: 'data' });
-      });
-    </script>
   </head>
   <body>
     <h1>Battle Cobras</h1>
     <div id="grid">
 
     </div>
+
+    <nav id="controls">
+      <button class="move left" data-direction="left">←</button>
+      <button class="move up" data-direction="up">↑</button>
+      <button class="move right" data-direction="right">→</button>
+      <button class="move down" data-direction="down">↓</button>
+    </nav>
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script src="./board.js" type="text/javascript"></script>
     <script src="./script.js" type="text/javascript"></script>
   </body>
 </html>
