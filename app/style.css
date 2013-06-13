@@ -1,3 +1,17 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#title {
+  margin: 0;
+  font-family: Helvetica, Arial, sans-serif;
+  background-color: #C0392B;
+  color: #FFF;
+  text-align: center;
+  padding: 5px;
+}
+
 #grid .sq {
   float: left;
   height: 49px;
@@ -11,14 +25,63 @@
   height: 500px;
   border-top: 1px solid #BBB;
   border-left: 1px solid #BBB;
+  margin: 25px auto 0 auto;
 }
 
 .red {
-  background-color: #FF0000;
+  background-color: #C0392B;
 }
 .blue {
-  background-color: #0000FF;
+  background-color: #2980B9;
 }
 .green {
-  background-color: #00FF00;
+  background-color: #27AE60;
+}
+
+#controls button {
+  position: fixed;
+  opacity: .3;
+  background: none;
+  border: 0;
+  font-size: 4em;
+  font-weight: bolder;
+}
+
+#controls button:hover {
+  opacity: .8;
+}
+
+#controls button:active {
+  background-color: #C0392B;
+  color: #FFF;
+}
+
+#controls .left, #controls .right {
+  width: 20%;
+  height: 50%;
+}
+
+#controls .up, #controls .down {
+  height: 20%;
+  width: 50%;
+}
+
+#controls .left {
+  left: 0;
+  top: 25%;
+}
+
+#controls .right {
+  top: 25%;
+  right: 0;
+}
+
+#controls .up {
+  top: 0;
+  left: 25%;
+}
+
+#controls .down {
+  bottom: 0;
+  left: 25%;
 }
