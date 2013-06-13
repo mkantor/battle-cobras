@@ -11,7 +11,7 @@ var app = http.createServer(function(req, res) {
   }
 
   var extname = path.extname(filePath);
-  var contentType = 'text/html';
+  var contentType = 'text/html; charset=utf-8';
   switch(extname) {
     case '.js':
       contentType = 'text/javascript';
@@ -42,10 +42,20 @@ var app = http.createServer(function(req, res) {
   });
 }).listen(80);
 
+// Gameplay.
 var io = socketIO.listen(app);
 io.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
+  socket.emit('update', {
+      players: {
+        me: {
+          id: 1,
+          position: { x: 0, y: 0 }, // TODO: Decide where to spawn based on world state (away from other players?).
+          team: 'red' // TODO: Use the team which is currently losing.
+        }
+        // ... probably other players with ids as property names.
+      }
+  });
+  socket.on('move', function (data) {
+    console.log('>>> A player tried to move!', data);
   });
 });
