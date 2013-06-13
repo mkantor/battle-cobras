@@ -1,0 +1,24 @@
+#grid .sq {
+  float: left;
+  height: 49px;
+  width: 49px;
+  border-right: 1px solid #BBB;
+  border-bottom: 1px solid #BBB;
+}
+
+#grid {
+  width: 500px;
+  height: 500px;
+  border-top: 1px solid #BBB;
+  border-left: 1px solid #BBB;
+}
+
+.red {
+  background-color: #FF0000;
+}
+.blue {
+  background-color: #0000FF;
+}
+.green {
+  background-color: #00FF00;
+}
