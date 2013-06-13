@@ -42,20 +42,27 @@ var app = http.createServer(function(req, res) {
   });
 }).listen(80);
 
+var players = {};
+
 // Gameplay.
 var io = socketIO.listen(app);
 io.sockets.on('connection', function (socket) {
+
+  // Add the new player.
+  players[socket.id] = {
+    position: { x: 0, y: 0 }, // TODO: Decide where to spawn based on world state (away from other players?).
+    team: 'red' // TODO: Use the team which is currently losing.
+  };
+
+  // Send the world.
   socket.emit('update', {
-      players: {
-        me: {
-          id: 1,
-          position: { x: 0, y: 0 }, // TODO: Decide where to spawn based on world state (away from other players?).
-          team: 'red' // TODO: Use the team which is currently losing.
-        }
-        // ... probably other players with ids as property names.
-      }
+      players: players
   });
+
   socket.on('move', function (data) {
-    console.log('>>> A player tried to move!', data);
+    socket.emit('update', {
+        players: players
+    });
+    console.log('Player ' + socket.id + ' moved.', data);
   });
 });

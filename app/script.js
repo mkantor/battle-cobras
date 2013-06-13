@@ -3,14 +3,15 @@ $(document).ready(function() {
   Board.initialize();
 
   /* Handle world updates. */
-  var socket = io.connect('http://localhost:3000');
-  socket.on('update', function (data) {
-    var myCell = Board.getCell(data.players.me.position);
-    myCell.element.addClass(data.players.me.team);
+  var socketIO = io.connect('http://localhost:3000');
+  socketIO.on('update', function (data) {
+    var me = data.players[socketIO.socket.sessionid];
+    var myCell = Board.getCell(me.position);
+    myCell.element.addClass(me.team);
   });
 
   $('#controls .move').click(function(event) {
-    console.log('moving...', socket); // XXX
-    socket.emit('move', $(this).data());
+    console.log('moving...', socketIO); // XXX
+    socketIO.emit('move', $(this).data());
   });
 });
