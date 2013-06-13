@@ -1,3 +1,17 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#title {
+  margin: 0;
+  font-family: Helvetica, Arial, sans-serif;
+  background-color: #C0392B;
+  color: #FFF;
+  text-align: center;
+  padding: 5px;
+}
+
 #grid .sq {
   float: left;
   height: 49px;
@@ -14,11 +28,11 @@
 }
 
 .red {
-  background-color: #FF0000;
+  background-color: #C0392B;
 }
 .blue {
-  background-color: #0000FF;
+  background-color: #2980B9;
 }
 .green {
-  background-color: #00FF00;
+  background-color: #27AE60;
 }
