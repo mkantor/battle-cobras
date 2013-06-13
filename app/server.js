@@ -56,13 +56,30 @@ io.sockets.on('connection', function (socket) {
 
   // Send the world.
   socket.emit('update', {
-      players: players
+    players: players
   });
 
-  socket.on('move', function (data) {
+  socket.on('move', function (requestData) {
+    var player = players[socket.id];
+    // TODO: Handle wraparound.
+    switch(requestData.direction) {
+      case 'left':
+        player.position.x--;
+        break;
+      case 'up':
+        player.position.y--;
+        break;
+      case 'right':
+        player.position.x++;
+        break;
+      case 'down':
+        player.position.y++;
+        break;
+    }
     socket.emit('update', {
         players: players
     });
-    console.log('Player ' + socket.id + ' moved.', data);
+
+    console.log('Player ' + socket.id + ' moved ' + requestData.direction + ' to', player.position);
   });
 });
