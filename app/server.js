@@ -126,8 +126,10 @@ io.sockets.on('connection', function (socket) {
         newPosition.y++;
         break;
     }
-
+    
+    var lastTailPos = null
     if (player.tail.length > 0) {
+      lastTailPos = player.tail[player.tail.length-1];
       // Head movement check
       var moved = true;
       for (var i = 0; i < player.tail.length; i++) {
@@ -190,9 +192,31 @@ io.sockets.on('connection', function (socket) {
           else {
             otherPlayer.tail.pop();
           }
+          // Append to eater tail
+          if (lastTailPos != null) {
+            var newTailPos = {x: lastTailPos.x, y: lastTailPos.y};
+            player.tail.push(newTailPos);
+          }
+          else {
+            var newTailPos = {x: player.position.x, y: player.position.y}
+            switch (lastDirection) {
+              case 'left':
+                newTailPos.x++;
+                break;
+              case 'up':
+                newTailPos.y--;
+                break;
+              case 'right':
+                newTailPos.x--;
+                break;
+              case 'down':
+                newTailPos.y++;
+                break;
+            }
+            player.tail.push(newTailPos);
+          }
         }
       }
-       // TODO: Send update to clients, take server action
     }
 
     // Send the update to all players.
