@@ -1,26 +1,36 @@
-var WIDTH = 15;
-var HEIGHT = 10;
+// If this isn't loaded as a module, plop it into `this` (on the client if 
+// loaded via a script tag, `this` will be `window`).
+if(typeof exports === 'undefined') {
+  var exports = this.Board = {};
+}
 
-var Board = {
+(function(exports) {
+
+  exports.width = 15;
+  exports.height = 10;
+
   /* Initialize grid */
-  initialize: function() {
+  exports.initialize = function() {
     var grid = "";
-    $("#grid").css({"height": HEIGHT*50, "width": WIDTH*50 });
-    for (var i = 0; i < WIDTH*HEIGHT; i++) {
+    $("#grid").css({
+      "height": Board.height * 50,
+      "width": Board.width * 50
+    });
+    for (var i = 0; i < Board.width * Board.height; i++) {
       grid = grid + '<div id="sq-' +
-         String(Math.floor(i/WIDTH)) + '-' +
-         String(i%WIDTH) + '" class="sq"></div>';
+         String(Math.floor(i / Board.width)) + '-' +
+         String(i % Board.width) + '" class="sq"></div>';
     }
     $("#grid").append(grid);
-  },
+  };
 
   /* Reset the board to an empty state. */
-  wipe: function() {
+  exports.wipe = function() {
     $('#grid .sq').removeClass().addClass('sq');
-  },
+  };
 
   // TODO: Probably move most player logic out of here.
-  update: function(worldState) {
+  exports.update = function(worldState) {
     Board.wipe();
 
     // TODO? If this is a performance bottleneck we could combine it with the 
@@ -30,12 +40,13 @@ var Board = {
       var playerCell = Board.getCell(player.position);
       playerCell.element.addClass(player.team);
     }
-  },
+  };
 
-  getCell: function(position) {
+  exports.getCell = function(position) {
     // TODO: Cell object?
     return {
       element: $('#sq-' + position.y + '-' + position.x)
     };
-  }
-};
+  };
+
+})(exports);
