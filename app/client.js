@@ -2,7 +2,7 @@ $(document).ready(function() {
 
   Board.initialize();
 
-  var socketIO = io.connect('http://localhost:3000');
+  var socketIO = io.connect(':3000');
   socketIO.on('connect', function() {
     console.log('Your session id is ' + socketIO.socket.sessionid);
   });
