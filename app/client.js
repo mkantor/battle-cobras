@@ -1,5 +1,33 @@
 $(document).ready(function() {
 
+  var emitMove = function(dir) {
+    player = Board.worldState.players[socketIO.socket.sessionid];
+    newPosition = {x: player.position.x, y: player.position.y}
+    switch(dir) {
+      case 'left':
+        newPosition.x--;
+        break;
+      case 'up':
+        newPosition.y--;
+        break;
+      case 'right':
+        newPosition.x++;
+        break;
+      case 'down':
+        newPosition.y++;
+        break;
+    }
+    newPosition = Board.wrapAround(newPosition);
+    for (var i = 0; i < player.tail.length; i++) {
+      tailPos = player.tail[i];
+      if (newPosition.x == tailPos.x &&
+          newPosition.y == tailPos.y) {
+        return false;
+      }
+    }
+    socketIO.emit('move', { direction: dir });
+  }
+
   Board.initialize();
 
   var socketIO = io.connect(':3000');
@@ -13,26 +41,27 @@ $(document).ready(function() {
   });
 
   $('#controls .move').click(function(event) {
-    socketIO.emit('move', $(this).data());
+    emitMove($(this).data());
   });
 
   // Allow using arrow keys for movement.
   $(document).keydown(function(event) {
     switch(event.which) {
       case 37: // left arrow
-        socketIO.emit('move', { direction: 'left' });
+        emitMove('left');
       break;
 
       case 38: // up arrow
-        socketIO.emit('move', { direction: 'up' });
+        emitMove('up');
+        //socketIO.emit('move', { direction: 'up' });
       break;
 
       case 39: // right arrow
-        socketIO.emit('move', { direction: 'right' });
+        emitMove('right');
       break;
 
       case 40: // down arrow
-        socketIO.emit('move', { direction: 'down' });
+        emitMove('down');
       break;
     }
   });

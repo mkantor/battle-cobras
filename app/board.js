@@ -32,7 +32,7 @@ if(typeof exports === 'undefined') {
   // TODO: Probably move most player logic out of here.
   exports.update = function(worldState) {
     Board.wipe();
-
+    exports.worldState = worldState;
     // TODO? If this is a performance bottleneck we could combine it with the 
     // wipe() loop to only hit each cell once.
     for(var id in worldState.players) {
