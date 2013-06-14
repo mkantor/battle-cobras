@@ -11,6 +11,10 @@ var path = require('path');
 var fs = require('fs');
 var socketIO = require('socket.io');
 
+var board = require('./board.js');
+
+var players = {};
+
 var app = http.createServer(function(req, res) {
   console.log("Request started");
   var filePath = '.' + req.url;
@@ -49,8 +53,6 @@ var app = http.createServer(function(req, res) {
     }
   });
 }).listen(80);
-
-var players = {};
 
 // Gameplay.
 var io = socketIO.listen(app);
@@ -94,21 +96,26 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('move', function (requestData) {
     var player = players[socket.id];
-    // TODO: Handle wraparound.
+
+    var newPosition = player.position;
     switch(requestData.direction) {
       case 'left':
-        player.position.x--;
+        newPosition.x--;
         break;
       case 'up':
-        player.position.y--;
+        newPosition.y--;
         break;
       case 'right':
-        player.position.x++;
+        newPosition.x++;
         break;
       case 'down':
-        player.position.y++;
+        newPosition.y++;
         break;
     }
+
+    // Wrap around if necessary.
+    player.position = board.wrapAround(newPosition);
+
     socket.emit('update', {
         players: players
     });

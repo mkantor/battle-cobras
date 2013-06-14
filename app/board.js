@@ -49,4 +49,14 @@ if(typeof exports === 'undefined') {
     };
   };
 
+  exports.wrapAround = function(position) {
+    return {
+      x: wrapDimension(position.x, 'width'),
+      y: wrapDimension(position.y, 'height')
+    };
+  }
+  function wrapDimension(coord, dimension) {
+    return coord < 0 ? exports[dimension] + coord : coord % exports[dimension];
+  }
+
 })(exports);
