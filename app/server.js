@@ -58,9 +58,11 @@ var app = http.createServer(function(req, res) {
 var io = socketIO.listen(app);
 io.sockets.on('connection', function (socket) {
   // Add the new player.
+  var randX = Math.floor((Math.random()*board.width)+1);
+  var randY = Math.floor((Math.random()*board.height)+1);
   players[socket.id] = {
-    position: { x: Math.floor((Math.random()*board.width)+1),
-                y: Math.floor((Math.random()*board.width)+1) }, // TODO: Decide where to spawn based on world state (away from other players?).
+    position: { x: randX,
+                y: randY }, // TODO: Decide where to spawn based on world state (away from other players?).
     team: (function() {
       var teams = {};
       for (var player in players) {
@@ -87,8 +89,14 @@ io.sockets.on('connection', function (socket) {
       }
       return minTeam;
     })(),
-    length: 1,
-    lastDirection: 'right'
+    length: 3,
+    lastDirection: 'right',
+    tail: [board.wrapAround({"x": randX-1, "y": randY}),
+           board.wrapAround({"x": randX-2, "y": randY}),
+           board.wrapAround({"x": randX-3, "y": randY}),
+           board.wrapAround({"x": randX-4, "y": randY}),
+           board.wrapAround({"x": randX-5, "y": randY}),
+           board.wrapAround({"x": randX-6, "y": randY})]
   };
 
   // Send the world.
@@ -103,6 +111,18 @@ io.sockets.on('connection', function (socket) {
     // Consider player inertia
     player.lastDirection = requestData.direction;
     // TODO: Need to use this lastDirection to force unresponsive players to continue moving after an arbitrary period of time
+
+    if (player.tail.length > 0) {
+      var newTail = [];
+      newTailPosition = {x: player.position.x, y: player.position.y}
+      newTail.push(newTailPosition);
+      for (var i = 0; i < player.tail.length-1; i++) {
+        newTailPosition = {x: player.tail[i].x, y: player.tail[i].y}
+        newTail.push(newTailPosition);
+      }
+      player.tail = newTail;
+    }
+
     switch(requestData.direction) {
       case 'left':
         newPosition.x--;

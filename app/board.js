@@ -39,6 +39,13 @@ if(typeof exports === 'undefined') {
       var player = worldState.players[id];
       var playerCell = Board.getCell(player.position);
       playerCell.element.addClass(player.team);
+      console.dir(player);
+      var playerTailCells = {}
+      for (var i = 0; i < player.tail.length; i++) {
+        position = player.tail[i];
+        cell = Board.getCell(position);
+        cell.element.addClass(player.team);
+      }
     }
   };
 
