@@ -87,7 +87,8 @@ io.sockets.on('connection', function (socket) {
       }
       return minTeam;
     })(),
-    length: 1
+    length: 1,
+    lastDirection: 'right'
   };
 
   // Send the world.
@@ -99,6 +100,9 @@ io.sockets.on('connection', function (socket) {
     var player = players[socket.id];
 
     var newPosition = player.position;
+    // Consider player inertia
+    player.lastDirection = requestData.direction;
+    // TODO: Need to use this lastDirection to force unresponsive players to continue moving after an arbitrary period of time
     switch(requestData.direction) {
       case 'left':
         newPosition.x--;
