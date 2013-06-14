@@ -159,12 +159,40 @@ io.sockets.on('connection', function (socket) {
       if (otherPlayerId == socket.id) {
         continue;
       }
+      var collision = false;
+      // Head collision
       otherPlayer = players[otherPlayerId];
       if (otherPlayer.position.x == player.position.x &&
           otherPlayer.position.y == player.position.y) {
         console.log("COLLISION: " + socket.id + " (" + player.team + ") " +
           " hit " + otherPlayerId + " (" + otherPlayer.team + ") ");
-      } // TODO: Send update to clients, take server action
+        collision = true;
+      }
+      // Tail collision
+      for (var i = 0; i < otherPlayer.tail.length; i++) {
+        tailPos = otherPlayer.tail[i];
+        if (tailPos.x == player.position.x &&
+            tailPos.y == player.position.y) {
+          console.log("COLLISION WITH TAIL: " + socket.id + " (" +
+            player.team + ") " + " hit " + otherPlayerId + " (" +
+            otherPlayer.team + ") ");
+          collision = true;
+          break;
+        }
+      }
+      if (collision == true) {
+        if ((player.team == "red" && otherPlayer.team == "green") ||
+            (player.team == "green" && otherPlayer.team == "blue") ||
+            (player.team == "blue" && otherPlayer.team == "red")) {
+          if (otherPlayer.tail.length == 0) {
+            // dead
+          }
+          else {
+            otherPlayer.tail.pop();
+          }
+        }
+      }
+       // TODO: Send update to clients, take server action
     }
 
     // Send the update to all players.
