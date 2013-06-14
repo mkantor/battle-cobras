@@ -107,21 +107,10 @@ io.sockets.on('connection', function (socket) {
   socket.on('move', function (requestData) {
     var player = players[socket.id];
 
-    var newPosition = player.position;
+    var newPosition = {x: player.position.x, y: player.position.y};
     // Consider player inertia
     player.lastDirection = requestData.direction;
     // TODO: Need to use this lastDirection to force unresponsive players to continue moving after an arbitrary period of time
-
-    if (player.tail.length > 0) {
-      var newTail = [];
-      newTailPosition = {x: player.position.x, y: player.position.y}
-      newTail.push(newTailPosition);
-      for (var i = 0; i < player.tail.length-1; i++) {
-        newTailPosition = {x: player.tail[i].x, y: player.tail[i].y}
-        newTail.push(newTailPosition);
-      }
-      player.tail = newTail;
-    }
 
     switch(requestData.direction) {
       case 'left':
@@ -136,6 +125,30 @@ io.sockets.on('connection', function (socket) {
       case 'down':
         newPosition.y++;
         break;
+    }
+
+    if (player.tail.length > 0) {
+      // Head movement check
+      var moved = true;
+      for (var i = 0; i < player.tail.length; i++) {
+        if (newPosition.x == player.tail[i].x &&
+            newPosition.y == player.tail[i].y) {
+          newPosition = {x: player.position.x, y: player.position.y};
+          moved = false;
+          break;
+        }
+      }
+      // Tail update
+      if (moved) {
+        var newTail = [];
+        newTailPosition = {x: player.position.x, y: player.position.y}
+        newTail.push(newTailPosition);
+        for (var i = 0; i < player.tail.length-1; i++) {
+          newTailPosition = {x: player.tail[i].x, y: player.tail[i].y}
+          newTail.push(newTailPosition);
+        }
+        player.tail = newTail;
+      }
     }
 
     // Wrap around if necessary.
