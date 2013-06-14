@@ -121,6 +121,19 @@ io.sockets.on('connection', function (socket) {
     // Wrap around if necessary.
     player.position = board.wrapAround(newPosition);
 
+    // Collision detection - check current head against other cells
+    for (var otherPlayerId in players) {
+      if (otherPlayerId == socket.id) {
+        continue;
+      }
+      otherPlayer = players[otherPlayerId];
+      if (otherPlayer.position.x == player.position.x &&
+          otherPlayer.position.y == player.position.y) {
+        console.log("COLLISION: " + socket.id + " (" + player.team + ") " +
+          " hit " + otherPlayerId + " (" + otherPlayer.team + ") ");
+      } // TODO: Send update to clients, take server action
+    }
+
     socket.emit('update', {
         players: players
     });
