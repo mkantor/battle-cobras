@@ -90,6 +90,7 @@ io.sockets.on('connection', function (socket) {
       return minTeam;
     })(),
     length: 3,
+    alive: true,
     lastDirection: 'right',
     tail: [board.wrapAround({"x": randX-1, "y": randY}),
            board.wrapAround({"x": randX-2, "y": randY}),
@@ -226,7 +227,7 @@ io.sockets.on('connection', function (socket) {
             (player.team == "green" && otherPlayer.team == "blue") ||
             (player.team == "blue" && otherPlayer.team == "red")) {
           if (otherPlayer.tail.length == 0) {
-            // dead
+            otherPlayer.alive = false;
           }
           else {
             otherPlayer.tail.pop();
@@ -239,7 +240,7 @@ io.sockets.on('connection', function (socket) {
                  (player.team == "blue" && otherPlayer.team == "green") ||
                  (player.team == "green" && otherPlayer.team == "red")) {
           if (player.tail.length == 0) {
-            // dead
+            otherPlayer.alive = false;
           }
           else {
             player.tail.pop();
