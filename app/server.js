@@ -154,7 +154,9 @@ io.sockets.on('connection', function (socket) {
       } // TODO: Send update to clients, take server action
     }
 
-    socket.emit('update', {
+    // Send the update to all players.
+    console.log('Broadcasting update.');
+    io.sockets.emit('update', {
         players: players
     });
 
