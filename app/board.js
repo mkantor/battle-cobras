@@ -6,22 +6,28 @@ if(typeof exports === 'undefined') {
 
 (function(exports) {
 
-  exports.width = 15;
-  exports.height = 10;
+  exports.width = 31;
+  exports.height = 31;
 
   /* Initialize grid */
   exports.initialize = function() {
-    var grid = "";
+    // Height/width of cells in px.
+    var cellSize = 20;
+
+    var x = 0;
+    var y = 0;
     $("#grid").css({
-      "height": Board.height * 50,
-      "width": Board.width * 50
+      "height": Board.height * cellSize,
+      "width": Board.width * cellSize
     });
     for (var i = 0; i < Board.width * Board.height; i++) {
-      grid = grid + '<div id="sq-' +
-         String(Math.floor(i / Board.width)) + '-' +
-         String(i % Board.width) + '" class="sq"></div>';
+      y = Math.floor(i / Board.width);
+      x = i % Board.width;
+      $("#grid").append($('<div id="sq-' + y + '-' + x + '" class="sq"></div>').css({
+        height: cellSize,
+        width: cellSize
+      }));
     }
-    $("#grid").append(grid);
   };
 
   /* Reset the board to an empty state. */
