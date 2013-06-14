@@ -1,3 +1,5 @@
+var me = undefined; // TODO: Player object?
+
 $(document).ready(function() {
 
   var emitMove = function(dir) {
@@ -36,7 +38,9 @@ $(document).ready(function() {
   });
 
   socketIO.on('update', function(data) {
-    console.log('update', data);
+    console.log('update message from socket.io', data);
+    me = data.players[socketIO.socket.sessionid];
+    console.log('I am', me);
     Board.update(data);
   });
 
