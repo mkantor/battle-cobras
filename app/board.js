@@ -14,8 +14,26 @@ var Board = {
     $("#grid").append(grid);
   },
 
-  /* Return a jQuery collection containing the requested cell */
-  getCell: function (position) {
+  /* Reset the board to an empty state. */
+  wipe: function() {
+    $('#grid .sq').removeClass().addClass('sq');
+  },
+
+  // TODO: Probably move most player logic out of here.
+  update: function(worldState) {
+    Board.wipe();
+
+    // TODO? If this is a performance bottleneck we could combine it with the 
+    // wipe() loop to only hit each cell once.
+    for(var id in worldState.players) {
+      var player = worldState.players[id];
+      var playerCell = Board.getCell(player.position);
+      playerCell.element.addClass(player.team);
+    }
+  },
+
+  getCell: function(position) {
+    // TODO: Cell object?
     return {
       element: $('#sq-' + position.y + '-' + position.x)
     };
