@@ -96,7 +96,8 @@ io.sockets.on('connection', function (socket) {
            board.wrapAround({"x": randX-3, "y": randY}),
            board.wrapAround({"x": randX-4, "y": randY}),
            board.wrapAround({"x": randX-5, "y": randY}),
-           board.wrapAround({"x": randX-6, "y": randY})]
+           board.wrapAround({"x": randX-6, "y": randY})],
+    lastTailPos: board.wrapAround({x: randX-7, y: randY})
   };
 
   // Send the world.
@@ -127,9 +128,11 @@ io.sockets.on('connection', function (socket) {
         break;
     }
     
-    var lastTailPos = null
+    player.lastTailPos = null
     if (player.tail.length > 0) {
-      lastTailPos = player.tail[player.tail.length-1];
+      last = player.tail[player.tail.length-1];
+      player.lastTailPos = {x: last.x, y: last.y};
+      player.lastTailPos = board.wrapAround(player.lastTailPos);
       // Head movement check
       var moved = true;
       for (var i = 0; i < player.tail.length; i++) {
@@ -153,6 +156,40 @@ io.sockets.on('connection', function (socket) {
       }
     }
 
+    var appendToTail = function(player) {
+      lastTailPos = player.lastTailPos;
+      if (lastTailPos != null) {
+        var currentLastTail = player.tail[player.tail.length-1];
+        var newTailPos = {x: lastTailPos.x, y: lastTailPos.y};
+        var diff = {x: currentLastTail.x - newTailPos.x,
+                    y: currentLastTail.y - newTailPos.y};
+        newTailPos = board.wrapAround(newTailPos);
+        player.tail.push(newTailPos);
+        player.lastTailPos = {x: newTailPos.x, y: newTailPos.y};
+        player.lastTailPos = {x: newTailPos.x - diff.x,
+                              y: newTailPos.y - diff.y}
+      }
+      else {
+        var newTailPos = {x: player.position.x, y: player.position.y}
+        switch (player.lastDirection) {
+          case 'left':
+            newTailPos.x++;
+            break;
+          case 'up':
+            newTailPos.y++;
+            break;
+          case 'right':
+            newTailPos.x--;
+            break;
+          case 'down':
+          default:
+            newTailPos.y--;
+            break;
+        }
+        player.tail.push(newTailPos);
+      }
+    }
+
     // Wrap around if necessary.
     player.position = board.wrapAround(newPosition);
 
@@ -162,6 +199,7 @@ io.sockets.on('connection', function (socket) {
         continue;
       }
       var collision = false;
+      var headCollision = false;
       // Head collision
       otherPlayer = players[otherPlayerId];
       if (otherPlayer.position.x == player.position.x &&
@@ -169,6 +207,7 @@ io.sockets.on('connection', function (socket) {
         console.log("COLLISION: " + socket.id + " (" + player.team + ") " +
           " hit " + otherPlayerId + " (" + otherPlayer.team + ") ");
         collision = true;
+        headCollision = true;
       }
       // Tail collision
       for (var i = 0; i < otherPlayer.tail.length; i++) {
@@ -193,27 +232,20 @@ io.sockets.on('connection', function (socket) {
             otherPlayer.tail.pop();
           }
           // Append to eater tail
-          if (lastTailPos != null) {
-            var newTailPos = {x: lastTailPos.x, y: lastTailPos.y};
-            player.tail.push(newTailPos);
+          appendToTail(player);
+        }
+        // self harm
+        else if ((player.team == "red" && otherPlayer.team == "blue") ||
+                 (player.team == "blue" && otherPlayer.team == "green") ||
+                 (player.team == "green" && otherPlayer.team == "red")) {
+          if (player.tail.length == 0) {
+            // dead
           }
           else {
-            var newTailPos = {x: player.position.x, y: player.position.y}
-            switch (lastDirection) {
-              case 'left':
-                newTailPos.x++;
-                break;
-              case 'up':
-                newTailPos.y--;
-                break;
-              case 'right':
-                newTailPos.x--;
-                break;
-              case 'down':
-                newTailPos.y++;
-                break;
-            }
-            player.tail.push(newTailPos);
+            player.tail.pop();
+          }
+          if (headCollision) {
+            appendToTail(otherPlayer);
           }
         }
       }
