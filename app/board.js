@@ -1,9 +1,3 @@
-// If this isn't loaded as a module, plop it into `this` (on the client if 
-// loaded via a script tag, `this` will be `window`).
-if(typeof exports === 'undefined') {
-  var exports = this.Board = {};
-}
-
 (function(exports) {
 
   exports.width = 31;
@@ -72,4 +66,6 @@ if(typeof exports === 'undefined') {
     return coord < 0 ? exports[dimension] + coord : coord % exports[dimension];
   }
 
-})(exports);
+})(typeof exports === 'undefined' ? exports = this.Board = {} : exports);
+// Above line: If this isn't loaded as a module, plop it into `this` (on the 
+// client if loaded via a script tag, `this` will be `window`).
