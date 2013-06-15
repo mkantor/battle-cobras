@@ -17,6 +17,13 @@ body {
   box-sizing: border-box;
   border-right: 1px solid #BBB;
   border-bottom: 1px solid #BBB;
+  opacity: 0.75;
+  font-family: monospace;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.333);
+}
+#grid .sq.head {
+  opacity: 1;
 }
 
 #grid {
