@@ -68,10 +68,10 @@ io.sockets.on('connection', function (socket) {
       for (var player in players) {
         playerTeam = players[player].team;
         if (teams[playerTeam]) {
-          teams[playerTeam] += player.length;
+          teams[playerTeam] += players[player].tail.length;
         }
         else {
-          teams[playerTeam] = player.length;
+          teams[playerTeam] = players[player].tail.length;
         }
       }
       var teamNames = ["red", "green", "blue"];
@@ -79,7 +79,7 @@ io.sockets.on('connection', function (socket) {
       var minTeam = "red"
       console.dir(teams);
       for (var i = 1; i < teamNames.length; i++) {
-        if (teams[teamNames[i]] == null) {
+        if (teams[teamNames[i]] === undefined) {
           teams[teamNames[i]] = 0;
         }
         if (teams[teamNames[i]] < minLength) {
@@ -89,7 +89,6 @@ io.sockets.on('connection', function (socket) {
       }
       return minTeam;
     })(),
-    length: 3,
     alive: true,
     lastDirection: 'right',
     tail: [board.wrapAround({"x": randX-1, "y": randY}),
