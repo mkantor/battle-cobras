@@ -2,22 +2,34 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta http-equiv="content-type" value="text/html;utf-8">
     <title>Battle Cobras</title>
     <link href="./style.css" rel="stylesheet" />
   </head>
   <body>
-    <h1 id="title">Battle Cobras</h1>
-    <div id="grid">
+    <header>
+      <h1 id="title">Battle Cobras</h1>
+      <aside id="rules">
+        <h1>Rules</h1>
+        <ul>
+          <li><span class="red">red</span> eats <span class="green">green</span></li>
+          <li><span class="green">green</span> eats <span class="blue">blue</span></li>
+          <li><span class="blue">blue</span> eats <span class="red">red</span></li>
+        </ul>
+      </aside>
+    </header>
 
-    </div>
+    <article id="game">
+      <h1>Game</h1>
 
-    <nav id="controls">
-      <button class="move left" data-direction="left">←</button>
-      <button class="move up" data-direction="up">↑</button>
-      <button class="move right" data-direction="right">→</button>
-      <button class="move down" data-direction="down">↓</button>
-    </nav>
+      <nav id="controls">
+        <button class="move left" data-direction="left">←</button>
+        <button class="move up" data-direction="up">↑</button>
+        <button class="move right" data-direction="right">→</button>
+        <button class="move down" data-direction="down">↓</button>
+      </nav>
+
+      <div id="grid"><!-- Will be populated by JavaScript. --></div>
+    </article>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
