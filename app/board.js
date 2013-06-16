@@ -56,16 +56,6 @@
     Board.wipe();
     exports.worldState = worldState;
 
-    // XXX: Just for development.
-    $('.sq').each(function() {
-      var cell = $(this);
-      var absoluteCellPosition = Board.relativeToAbsolutePosition({
-        x: cell.data('x'),
-        y: cell.data('y')
-      });
-      cell.html('x:' + absoluteCellPosition.x + '<br/>y:' + absoluteCellPosition.y);
-    });
-
     // TODO? If this is a performance bottleneck we could combine it with the 
     // wipe() loop to only hit each cell once.
     for(var id in worldState.players) {
@@ -85,6 +75,8 @@
         }
       }
     }
+
+    $('#grid').trigger('updated.battle-cobras');
   };
 
   exports.getCenterAbsolutePosition = function() {
