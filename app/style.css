@@ -33,16 +33,14 @@ body > header {
   }
 
 #grid {
-  width: 500px;
-  height: 500px;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   border-left: 1px solid rgba(0, 0, 0, 0.1);
 
+  /* Vertically & horizontally center the grid. See below for more styles 
+     related to this. */
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-top: -250px;
-  margin-left: -250px;
 }
 
 #grid .sq {
@@ -150,5 +148,46 @@ body > header {
   }
   #game {
     height: 80%;
+  }
+}
+
+/* Adjust grid/cell size based on screen size. Generally we try to keep the 
+   grid at around 1.6 * the viewport width. */
+#grid {
+  height: 500px;
+  width: 500px;
+  margin-left: -250px;
+  margin-top: -250px;
+}
+@media all and (min-width: 500px) {
+  #grid {
+    height: 800px;
+    width: 800px;
+    margin-left: -400px;
+    margin-top: -400px;
+  }
+}
+@media all and (min-width: 800px) {
+  #grid {
+    height: 1280px;
+    width: 1280px;
+    margin-left: -640px;
+    margin-top: -640px;
+  }
+}
+@media all and (min-width: 1280px) {
+  #grid {
+    height: 2048px;
+    width: 2048px;
+    margin-left: -1024px;
+    margin-top: -1024px;
+  }
+}
+@media all and (min-width: 2048px) {
+  #grid {
+    height: 3276.8px;
+    width: 3276.8px;
+    margin-left: -1638.4px;
+    margin-top: -1638.4px;
   }
 }

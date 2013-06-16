@@ -4,10 +4,10 @@
   exports.width = 31;
   exports.height = 31;
 
-  // TODO: Dynamically set these based on the viewport size.
-  // see getVisibleWidth(), getVisibleHeight().
-  var viewWidth = 13;
-  var viewHeight = 13;
+  // The view can be smaller than the actual board if needed (although the 
+  // current frontend doesn't care).
+  var viewWidth = 31;
+  var viewHeight = 31;
 
   /* Initialize grid */
   exports.initialize = function() {
