@@ -70,6 +70,9 @@
     // wipe() loop to only hit each cell once.
     for(var id in worldState.players) {
       var player = worldState.players[id];
+      if (player.alive === false) {
+        continue;
+      }
       var headCell = Board.getCell(player.position, 'absolute');
       if(headCell) { // if the player is inside the viewable area
         headCell.addClass(player.team).addClass('head');

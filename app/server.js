@@ -107,6 +107,9 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('move', function (requestData) {
     var player = players[socket.id];
+    if (player.alive === false) {
+      return;
+    }
 
     var newPosition = {x: player.position.x, y: player.position.y};
     // Consider player inertia
@@ -239,7 +242,7 @@ io.sockets.on('connection', function (socket) {
                  (player.team == "blue" && otherPlayer.team == "green") ||
                  (player.team == "green" && otherPlayer.team == "red")) {
           if (player.tail.length == 0) {
-            otherPlayer.alive = false;
+            player.alive = false;
           }
           else {
             player.tail.pop();
