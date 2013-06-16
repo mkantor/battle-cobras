@@ -10,14 +10,18 @@ var http = require('http');
 var path = require('path');
 var fs = require('fs');
 var socketIO = require('socket.io');
+var url = require('url');
 
 var board = require('./board.js');
 
 var players = {};
 
 var app = http.createServer(function(req, res) {
-  console.log("Request started");
-  var filePath = '.' + req.url;
+  console.log("Client requested " + req.url);
+  var parsedUrl = url.parse(req.url, true);
+
+  // Assume paths are relative to this directory.
+  var filePath = '.' + parsedUrl.pathname;
   if (filePath == './') {
     filePath = './client.html';
   }
@@ -32,7 +36,7 @@ var app = http.createServer(function(req, res) {
       contentType = 'text/css';
       break;
   }
- 
+
   path.exists(filePath, function(exists) {
     if (exists) {
       fs.readFile(filePath, function(err, content) {
