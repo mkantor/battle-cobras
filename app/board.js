@@ -48,10 +48,9 @@
 
   /* Reset the board to an empty state. */
   exports.wipe = function() {
-    $('#grid .sq').removeClass().addClass('sq');
+    $('#grid .sq').empty();
   };
 
-  // TODO: Probably move most player logic out of here.
   exports.update = function(worldState) {
     Board.wipe();
     exports.worldState = worldState;
@@ -59,24 +58,29 @@
     // TODO? If this is a performance bottleneck we could combine it with the 
     // wipe() loop to only hit each cell once.
     for(var id in worldState.players) {
-      var player = worldState.players[id];
-      if (player.alive === false) {
-        continue;
-      }
-      var headCell = Board.getCell(player.position, 'absolute');
-      if(headCell) { // if the player is inside the viewable area
-        headCell.addClass(player.team).addClass('head');
-      }
-
-      for (var i = 0; i < player.tail.length; i++) {
-        var tailCell = Board.getCell(player.tail[i], 'absolute');
-        if(tailCell) {
-          tailCell.addClass(player.team);
-        }
-      }
+      drawPlayer(worldState.players[id]);
     }
 
     $('#grid').trigger('updated.battle-cobras');
+  };
+  function drawPlayer(player) {
+    if(player.alive === false) {
+      return;
+    }
+
+    var headCell = Board.getCell(player.position, 'absolute');
+    if(headCell) { // if the player is inside the viewable area
+      var head = $('<span></span>').addClass('player head ' + player.team);
+      headCell.append(head);
+    }
+
+    for(var i = 0; i < player.tail.length; i++) {
+      var tailCell = Board.getCell(player.tail[i], 'absolute');
+      if(tailCell) {
+        var tail = $('<span></span>').addClass('player tail ' + player.team);
+        tailCell.append(tail);
+      }
+    }
   };
 
   exports.getCenterAbsolutePosition = function() {

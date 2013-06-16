@@ -12,37 +12,50 @@ body {
   padding: 5px;
 }
 
+#grid {
+  width: 500px;
+  height: 500px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 25px auto 0 auto;
+}
+
 #grid .sq {
   float: left;
   box-sizing: border-box;
-  border-right: 1px solid #BBB;
-  border-bottom: 1px solid #BBB;
-  opacity: 0.75;
+  position: relative;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   font-family: monospace;
   font-size: 12px;
   color: rgba(0, 0, 0, 0.333);
 }
-#grid .sq.head {
-  opacity: 1;
-}
+  #grid .sq .player {
+    /* fill the whole cell */
+    position: absolute;
+    height: 100%;
+    width: 100%;
 
-#grid {
-  width: 500px;
-  height: 500px;
-  border-top: 1px solid #BBB;
-  border-left: 1px solid #BBB;
-  margin: 25px auto 0 auto;
-}
-
-.red {
-  background-color: #C0392B;
-}
-.blue {
-  background-color: #2980B9;
-}
-.green {
-  background-color: #27AE60;
-}
+    /* overlap the border */
+    margin-top: -1px;
+    margin-left: -1px;
+    padding: 1px;
+  }
+  #grid .sq .tail {
+    opacity: 0.5;
+  }
+  #grid .sq .head {
+    opacity: 0.75;
+  }
+  #grid .sq .red {
+    background-color: #C0392B;
+  }
+  #grid .sq .blue {
+    background-color: #2980B9;
+  }
+  #grid .sq .green {
+    background-color: #27AE60;
+  }
 
 #controls button {
   position: fixed;
