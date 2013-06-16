@@ -45,7 +45,7 @@ $(document).ready(function() {
   });
 
   $('#controls .move').click(function(event) {
-    emitMove($(this).data());
+    emitMove($(this).data('direction'));
   });
 
   // Allow using arrow keys for movement.
