@@ -86,14 +86,14 @@
 
     var headCell = Board.getCell(player.position, 'absolute');
     if(headCell) {
-      var head = $('<span/>').addClass('player head ' + player.team);
+      var head = '<span class="player head ' + player.team + '"></span>';
       headCell.append(head);
     }
 
     for(var i = 0; i < player.tail.length; i++) {
       var tailCell = Board.getCell(player.tail[i], 'absolute');
       if(tailCell) {
-        var tail = $('<span/>').addClass('player tail ' + player.team);
+        var tail = '<span class="player tail ' + player.team + '"></span>';
         tailCell.append(tail);
       }
     }
