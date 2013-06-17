@@ -130,6 +130,12 @@ io.sockets.on('connection', function (socket) {
   });
 
   socket.on('move', function (requestData) {
+    if (requestData.direction != "up" &&
+        requestData.direction != "down" &&
+        requestData.direction != "left" &&
+        requestData.direction != "right") {
+      return;
+    }
     var player = players[socket.id];
     player.lastUpdate = Date.now();
     if (player.alive === false) {
