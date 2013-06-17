@@ -146,6 +146,9 @@ io.sockets.on('connection', function (socket) {
     var now = Date.now();
     for (var id in players) {
       var p = players[id]
+      if (p.alive === false) {
+        delete players[id];
+      }
       var elapsed = now - p.lastUpdate;
       if (elapsed >= 1000*60*5) { // if 5 minutes have elapsed
         p.tail = [];
