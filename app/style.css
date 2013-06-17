@@ -5,6 +5,13 @@ html, body {
   overflow: hidden;
 }
 
+a {
+  color: #fb0;
+}
+  a:hover {
+    color: #ff0;
+  }
+
 /* Use ems as colored boxes. */
 em.red,
 em.green,
@@ -218,11 +225,17 @@ html.team-blue,
   }
   #title {
     float: left;
-    line-height: 3;
+    margin-top: 1em;
   }
   #rules {
     float: right;
   }
+  #game-messages {
+    clear: left;
+  }
+    #game-messages p {
+      display: inline;
+    }
 }
 
 /* Adjust grid/cell and font size based on screen size. Generally we try to 

@@ -40,13 +40,15 @@ $(document).ready(function() {
     socketIO.removeListener('update', socketUpdateHandler);
 
     me = data.players[socketIO.socket.sessionid];
+    Board.update(data);
+
     if(me && me.alive) {
       $(document.documentElement).addClass('team-' + me.team);
     } else {
       // You died or were culled.
       $(document.documentElement).removeClass();
+      $('#game-messages').html('<p>You died!</p> <p><a href=".">Reload the page</a> to play again.</p>');
     }
-    Board.update(data);
 
     // After done handling this update, reattach the handler.
     socketIO.on('update', socketUpdateHandler);
