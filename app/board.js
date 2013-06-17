@@ -12,7 +12,7 @@
   var cells = {};
   var centerAbsolutePosition = { x: undefined, y: undefined };
 
-  var grid = $('#grid');
+  var grid;
 
   /* Initialize grid */
   exports.initialize = function() {
@@ -21,6 +21,8 @@
     var row = 0;
     var column = 0;
     var cell;
+
+    grid = $('#grid');
 
     var visibleCells = Board.getVisibleWidth() * Board.getVisibleHeight();
 
