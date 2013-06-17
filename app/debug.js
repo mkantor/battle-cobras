@@ -21,7 +21,8 @@ if(/[?&]debug(?:[&#]|$)/.test(window.location.search)) {
           x: cell.data('x'),
           y: cell.data('y')
         });
-        cell.append('x:' + absoluteCellPosition.x + '<br/>y:' + absoluteCellPosition.y);
+        cell.find('.debug').remove();
+        cell.append('<span class="debug">x:' + absoluteCellPosition.x + '<br/>y:' + absoluteCellPosition.y + '</span>');
       });
     });
 
