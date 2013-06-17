@@ -139,11 +139,13 @@ io.sockets.on('connection', function (socket) {
         requestData.direction != "right") {
       return;
     }
+
     var player = players[socket.id];
-    player.lastUpdate = Date.now();
-    if (player.alive === false) {
+    if (player === undefined || player.alive === false) {
       return;
     }
+
+    player.lastUpdate = Date.now();
 
     // Run inactivity check
     var now = Date.now();
@@ -224,10 +226,10 @@ io.sockets.on('connection', function (socket) {
         player.tail.push(newTailPos);
         player.lastTailPos = {x: newTailPos.x, y: newTailPos.y};
         player.lastTailPos = {x: newTailPos.x - diff.x,
-                              y: newTailPos.y - diff.y}
+                              y: newTailPos.y - diff.y};
       }
       else {
-        var newTailPos = {x: player.position.x, y: player.position.y}
+        var newTailPos = {x: player.position.x, y: player.position.y};
         switch (player.lastDirection) {
           case 'left':
             newTailPos.x++;
@@ -249,7 +251,7 @@ io.sockets.on('connection', function (socket) {
         }
         player.tail.push(newTailPos);
       }
-    }
+    };
 
     // Wrap around if necessary.
     player.position = board.wrapAround(newPosition);
