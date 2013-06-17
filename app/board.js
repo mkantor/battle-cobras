@@ -9,6 +9,8 @@
   var viewWidth = 31;
   var viewHeight = 31;
 
+  var cells = {};
+
   /* Initialize grid */
   exports.initialize = function() {
     var x = 0;
@@ -51,9 +53,10 @@
         'data-y': y
       });
 
-      if(x == 0 && y == 0) {
-        cell.attr('id', 'center');
+      if(cells[x] === undefined) {
+        cells[x] = {};
       }
+      cells[x][y] = cell;
 
       $("#grid").append(cell);
     }
@@ -82,15 +85,15 @@
     }
 
     var headCell = Board.getCell(player.position, 'absolute');
-    if(headCell) { // if the player is inside the viewable area
-      var head = $('<span></span>').addClass('player head ' + player.team);
+    if(headCell) {
+      var head = $('<span/>').addClass('player head ' + player.team);
       headCell.append(head);
     }
 
     for(var i = 0; i < player.tail.length; i++) {
       var tailCell = Board.getCell(player.tail[i], 'absolute');
       if(tailCell) {
-        var tail = $('<span></span>').addClass('player tail ' + player.team);
+        var tail = $('<span/>').addClass('player tail ' + player.team);
         tailCell.append(tail);
       }
     }
@@ -165,7 +168,8 @@
     if(positionType == 'absolute') {
       position = Board.absoluteToRelativePosition(position);
     }
-    return $('.sq[data-x=' + position.x + '][data-y=' + position.y + ']');
+
+    return cells[position.x][position.y];
   };
 
   exports.wrapAround = function(position) {
