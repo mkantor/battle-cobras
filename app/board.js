@@ -30,6 +30,19 @@
       row = Math.floor(i / Board.getVisibleWidth());
       column = i % Board.getVisibleWidth();
 
+      if(column == 0) {
+        cell.addClass('first-column');
+      }
+      if(column == viewWidth - 1) {
+        cell.addClass('last-column');
+      }
+      if(row == 0) {
+        cell.addClass('first-row');
+      }
+      if(row == viewHeight - 1) {
+        cell.addClass('last-row');
+      }
+
       y = row - Math.floor(exports.getVisibleHeight() / 2);
       x = column - Math.floor(exports.getVisibleWidth() / 2);
 

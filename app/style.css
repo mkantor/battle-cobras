@@ -68,6 +68,9 @@ body > header {
   font-size: 12px;
   color: rgba(0, 0, 0, 0.333);
 }
+  #grid .sq.first-column {
+    clear: left;
+  }
   #grid .sq .player {
     /* fill the whole cell */
     position: absolute;
