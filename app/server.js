@@ -220,16 +220,20 @@ io.sockets.on('connection', function (socket) {
         switch (player.lastDirection) {
           case 'left':
             newTailPos.x++;
+            player.lastTailPos = {x: newTailPos.x + 1, y: newTailPos.y};
             break;
           case 'up':
             newTailPos.y++;
+            player.lastTailPos = {x: newTailPos.x, y: newTailPos.y - 1};
             break;
           case 'right':
             newTailPos.x--;
+            player.lastTailPos = {x: newTailPos.x - 1, y: newTailPos.y};
             break;
           case 'down':
           default:
             newTailPos.y--;
+            player.lastTailPos = {x: newTailPos.x, y: newTailPos.y - 1};
             break;
         }
         player.tail.push(newTailPos);
@@ -278,7 +282,7 @@ io.sockets.on('connection', function (socket) {
             otherPlayer.alive = false;
           }
           else {
-            otherPlayer.tail.pop();
+            otherPlayer.lastTailPos = otherPlayer.tail.pop();
           }
           // Append to eater tail
           appendToTail(player);
@@ -291,7 +295,7 @@ io.sockets.on('connection', function (socket) {
             player.alive = false;
           }
           else {
-            player.tail.pop();
+            player.lastTailPos = player.tail.pop();
           }
           if (headCollision) {
             appendToTail(otherPlayer);
