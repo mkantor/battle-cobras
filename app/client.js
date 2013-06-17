@@ -36,7 +36,12 @@ $(document).ready(function() {
 
   socketIO.on('update', function socketUpdateHandler(data) {
     me = data.players[socketIO.socket.sessionid];
-    $('html').addClass('team-' + me.team);
+    if(me && me.alive) {
+      $(document.documentElement).addClass('team-' + me.team);
+    } else {
+      // You died or were culled.
+      $(document.documentElement).removeClass();
+    }
     Board.update(data);
   });
 
