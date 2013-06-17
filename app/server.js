@@ -204,7 +204,7 @@ io.sockets.on('connection', function (socket) {
 
     var appendToTail = function(player) {
       lastTailPos = player.lastTailPos;
-      if (lastTailPos != null) {
+      if (lastTailPos != null && player.tail.length > 0) {
         var currentLastTail = player.tail[player.tail.length-1];
         var newTailPos = {x: lastTailPos.x, y: lastTailPos.y};
         var diff = {x: currentLastTail.x - newTailPos.x,
