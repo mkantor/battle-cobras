@@ -145,10 +145,14 @@ io.sockets.on('connection', function (socket) {
       return;
     }
 
-    player.lastUpdate = Date.now();
-
-    // Run inactivity check
+    // Throttle input
     var now = Date.now();
+    if (now - player.lastUpdate < 50) {
+      return;
+    }
+
+    player.lastUpdate = now;
+    // Run inactivity check
     for (var id in players) {
       var p = players[id]
       if (p.alive === false) {
