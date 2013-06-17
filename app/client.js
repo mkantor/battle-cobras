@@ -40,6 +40,7 @@ $(document).ready(function() {
     Board.update(data);
   });
 
+  /* User input. */
   $('#controls .move').click(function moveClickHandler(event) {
     emitMove($(this).data('direction'));
   });
@@ -72,5 +73,9 @@ $(document).ready(function() {
   });
   $(document).keyup(function keyupHandler() {
     $('#controls button').removeClass('active');
+  });
+
+  $(window).unload(function() {
+    socketIO.emit('quit');
   });
 });
