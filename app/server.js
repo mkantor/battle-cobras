@@ -184,9 +184,17 @@ io.sockets.on('connection', function (socket) {
       player.lastTailPos = board.wrapAround(player.lastTailPos);
       // Head movement check
       var moved = true;
-      for (var i = 0; i < player.tail.length; i++) {
-        if (newPosition.x == player.tail[i].x &&
-            newPosition.y == player.tail[i].y) {
+      var toCheck = [];
+      for (var id in players) {
+        p = players[id];
+        if (p.team == player.team) {
+          toCheck.push(p.position);
+          toCheck = toCheck.concat(p.tail);
+        }
+      }
+      for (var i = 0; i < toCheck.length; i++) {
+        if (newPosition.x == toCheck[i].x &&
+            newPosition.y == toCheck[i].y) {
           newPosition = {x: player.position.x, y: player.position.y};
           moved = false;
           break;
