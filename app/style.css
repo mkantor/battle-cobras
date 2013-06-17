@@ -104,6 +104,7 @@ body > header {
 
   font-family: monospace;
   color: rgba(0, 0, 0, 0.333);
+  font-size: 0.6em;
 }
   #grid .sq.first-column {
     clear: left;
@@ -182,6 +183,7 @@ body > header {
 }
 
 
+/* Adjust UI layout based on screen orientation. */
 @media all and (orientation: landscape) {
   body > header {
     position: fixed;
@@ -202,7 +204,6 @@ body > header {
     width: 100%;
   }
 }
-
 @media all and (orientation: portrait) {
   body > header {
     height: 20%;
