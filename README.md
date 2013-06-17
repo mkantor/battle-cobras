@@ -14,8 +14,7 @@ game server and all of its dependencies. The app folder is shared, and port 80
 on the VM is forwarded to port 3000 on the localhost. This is all customizable 
 in the Vagrantfile.
 
-You can test out your environment by ssh'ing into your environment and running 
-the sample script:
+To run the server, ssh into your environment and start it with node:
 
     vagrant ssh
     cd app
