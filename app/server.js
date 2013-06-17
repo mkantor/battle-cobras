@@ -247,7 +247,10 @@ io.sockets.on('connection', function (socket) {
       var collision = false;
       var headCollision = false;
       // Head collision
-      otherPlayer = players[otherPlayerId];
+      var otherPlayer = players[otherPlayerId];
+      if (otherPlayer.alive === false) {
+        continue;
+      }
       if (otherPlayer.position.x == player.position.x &&
           otherPlayer.position.y == player.position.y) {
         console.log("COLLISION: " + socket.id + " (" + player.team + ") " +
