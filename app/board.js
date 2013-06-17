@@ -64,7 +64,7 @@
 
   /* Reset the board to an empty state. */
   exports.wipe = function() {
-    $('#grid .sq').empty();
+    $('#grid .player').remove();
   };
 
   exports.update = function(worldState) {
