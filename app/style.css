@@ -106,12 +106,14 @@ body > header {
   font-family: monospace;
   color: rgba(0, 0, 0, 0.333);
   font-size: 0.6em;
+  text-align: center;
 }
   #grid .sq.first-column {
     clear: left;
   }
   #grid .sq .player {
     /* fill the whole cell */
+    display: block;
     position: absolute;
     height: 100%;
     width: 100%;
