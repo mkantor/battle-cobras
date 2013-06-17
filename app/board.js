@@ -10,6 +10,7 @@
   var viewHeight = 31;
 
   var cells = {};
+  var centerAbsolutePosition = { x: undefined, y: undefined };
 
   /* Initialize grid */
   exports.initialize = function() {
@@ -32,6 +33,9 @@
       row = Math.floor(i / Board.getVisibleWidth());
       column = i % Board.getVisibleWidth();
 
+      y = row - Math.floor(exports.getVisibleHeight() / 2);
+      x = column - Math.floor(exports.getVisibleWidth() / 2);
+
       if(column == 0) {
         cell.addClass('first-column');
       }
@@ -44,9 +48,6 @@
       if(row == viewHeight - 1) {
         cell.addClass('last-row');
       }
-
-      y = row - Math.floor(exports.getVisibleHeight() / 2);
-      x = column - Math.floor(exports.getVisibleWidth() / 2);
 
       cell.attr({
         'data-x': x,
@@ -68,6 +69,9 @@
   };
 
   exports.update = function(worldState) {
+    if(me) {
+      centerAbsolutePosition = me.position;
+    }
     Board.wipe();
     exports.worldState = worldState;
 
@@ -100,9 +104,7 @@
   };
 
   exports.getCenterAbsolutePosition = function() {
-    if(me) {
-      return me.position;
-    }
+    return centerAbsolutePosition;
   };
 
   exports.getVisibleWidth = function() {
@@ -177,7 +179,7 @@
       x: wrapDimension(position.x, 'width'),
       y: wrapDimension(position.y, 'height')
     };
-  }
+  };
   function wrapDimension(coord, dimension) {
     return coord < 0 ? exports[dimension] + coord : coord % exports[dimension];
   }
