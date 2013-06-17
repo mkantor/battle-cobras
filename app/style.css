@@ -5,14 +5,30 @@ html, body {
   overflow: hidden;
 }
 
+/* Color some UI elements based on your team's color. */
+.team-red body > header,
+.team-red #controls button:active,
+#grid .red {
+  background-color: #C0392B;
+}
+.team-green body > header,
+.team-green #controls button:active,
+#grid .green {
+  background-color: #27AE60;
+}
+.team-blue body > header,
+.team-blue #controls button:active,
+#grid .blue {
+  background-color: #2980B9;
+}
+
 body > header {
   font-family: Helvetica, Arial, sans-serif;
-  background-color: #C0392B;
   color: #FFF;
   padding: 5px;
   box-sizing: border-box;
   position: relative;
-  z-index: 99;
+  z-index: 100;
 }
   body > header #title {
     margin: 0;
@@ -33,9 +49,6 @@ body > header {
   }
 
 #grid {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  border-left: 1px solid rgba(0, 0, 0, 0.1);
-
   /* Vertically & horizontally center the grid. See below for more styles 
      related to this. */
   position: absolute;
@@ -47,8 +60,10 @@ body > header {
   float: left;
   box-sizing: border-box;
   position: relative;
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.025);
+  margin-left: -1px;
+  margin-top: -1px;
+
   font-family: monospace;
   font-size: 12px;
   color: rgba(0, 0, 0, 0.333);
@@ -63,6 +78,8 @@ body > header {
     margin-top: -1px;
     margin-left: -1px;
     padding: 1px;
+
+    z-index: 10;
   }
   #grid .sq .tail {
     opacity: 0.5;
@@ -70,63 +87,56 @@ body > header {
   #grid .sq .head {
     opacity: 0.75;
   }
-  #grid .sq .red {
-    background-color: #C0392B;
-  }
-  #grid .sq .blue {
-    background-color: #2980B9;
-  }
-  #grid .sq .green {
-    background-color: #27AE60;
-  }
 
 #controls button {
   position: absolute;
-  opacity: 0.3;
+  opacity: 0.5;
   background: none;
   border: 0;
   font-size: 4em;
   font-weight: bolder;
-  z-index: 100;
+  z-index: 90;
+  box-sizing: border-box;
 }
 
 #controls button:hover {
-  opacity: 0.8;
+  opacity: 0.75;
+  background-color: #FFF;
+  box-shadow: 0 0 10px black;
 }
 
 #controls button:active {
-  background-color: #C0392B;
   color: #FFF;
 }
 
 #controls .left, #controls .right {
   width: 20%;
-  height: 60%;
+  height: 100%;
 }
 
 #controls .up, #controls .down {
   height: 20%;
-  width: 60%;
+  width: 100%;
 }
 
 #controls .left {
   left: 0;
-  top: 20%;
+  top: 0;
 }
 
 #controls .right {
-  top: 20%;
+  top: 0;
   right: 0;
 }
 
 #controls .up {
   top: 0;
-  left: 20%;
+  left: 0;
 }
 
 #controls .down {
   bottom: 0;
-  left: 20%;
+  left: 0;
 }
 
 

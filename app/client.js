@@ -36,6 +36,7 @@ $(document).ready(function() {
 
   socketIO.on('update', function(data) {
     me = data.players[socketIO.socket.sessionid];
+    $('html').addClass('team-' + me.team);
     Board.update(data);
   });
 
