@@ -80,8 +80,7 @@ io.sockets.on('connection', function (socket) {
       }
       var teamNames = ["red", "green", "blue"];
       var minLength = teams["red"];
-      var minTeam = "red"
-      console.dir(teams);
+      var minTeam = "red";
       for (var i = 1; i < teamNames.length; i++) {
         if (teams[teamNames[i]] === undefined) {
           teams[teamNames[i]] = 0;
@@ -122,7 +121,6 @@ io.sockets.on('connection', function (socket) {
     for (var id in players) {
       var p = players[id]
       var elapsed = now - p.lastUpdate;
-      console.log(elapsed);
       if (elapsed >= 1000*60*5) { // if 5 minutes have elapsed
         p.tail = [];
         p.alive = false;
