@@ -119,6 +119,9 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('quit', function(requestData) {
     var player = players[socket.id];
+    if (player === undefined || player === null) {
+      return;
+    }
     player.alive = false;
     player.tail = [];
 
