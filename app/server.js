@@ -109,6 +109,18 @@ io.sockets.on('connection', function (socket) {
     players: players
   });
 
+  socket.on('quit', function(requestData) {
+    var player = players[socket.id];
+    player.alive = false;
+    player.tail = [];
+
+    // Send update to players
+    console.log('Broadcasting update.');
+    io.sockets.emit('update', {
+        players: players
+    });
+  });
+
   socket.on('move', function (requestData) {
     var player = players[socket.id];
     player.lastUpdate = Date.now();
