@@ -12,6 +12,8 @@
   var cells = {};
   var centerAbsolutePosition = { x: undefined, y: undefined };
 
+  var grid = $('#grid');
+
   /* Initialize grid */
   exports.initialize = function() {
     var x = 0;
@@ -59,13 +61,13 @@
       }
       cells[x][y] = cell;
 
-      $("#grid").append(cell);
+      grid.append(cell);
     }
   };
 
   /* Reset the board to an empty state. */
   exports.wipe = function() {
-    $('#grid .player').remove();
+    $('.player', grid).remove();
   };
 
   exports.update = function(worldState) {
@@ -81,7 +83,7 @@
       drawPlayer(worldState.players[id]);
     }
 
-    $('#grid').trigger('updated.battle-cobras');
+    grid.trigger('updated.battle-cobras');
   };
   function drawPlayer(player) {
     if(player.alive === false) {
