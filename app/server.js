@@ -95,6 +95,7 @@ io.sockets.on('connection', function (socket) {
     })(),
     alive: true,
     lastDirection: 'right',
+    lastUpdate: Date.now(), 
     tail: [board.wrapAround({"x": randX-1, "y": randY}),
            board.wrapAround({"x": randX-2, "y": randY}),
            board.wrapAround({"x": randX-3, "y": randY}),
@@ -111,8 +112,21 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('move', function (requestData) {
     var player = players[socket.id];
+    player.lastUpdate = Date.now();
     if (player.alive === false) {
       return;
+    }
+
+    // Run inactivity check
+    var now = Date.now();
+    for (var id in players) {
+      var p = players[id]
+      var elapsed = now - p.lastUpdate;
+      console.log(elapsed);
+      if (elapsed >= 1000*60*5) { // if 5 minutes have elapsed
+        p.tail = [];
+        p.alive = false;
+      }
     }
 
     var newPosition = {x: player.position.x, y: player.position.y};
