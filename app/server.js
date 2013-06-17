@@ -116,9 +116,7 @@ io.sockets.on('connection', function (socket) {
     }
 
     var newPosition = {x: player.position.x, y: player.position.y};
-    // Consider player inertia
     player.lastDirection = requestData.direction;
-    // TODO: Need to use this lastDirection to force unresponsive players to continue moving after an arbitrary period of time
 
     switch(requestData.direction) {
       case 'left':
