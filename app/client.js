@@ -55,7 +55,7 @@ $(document).ready(function() {
   };
 
   /* User input. */
-  $('#controls .move').click(function moveClickHandler(event) {
+  $('#controls .move').tap(function moveClickHandler(event) {
     emitMove($(this).data('direction'));
   });
 
