@@ -103,6 +103,10 @@ body > header {
   opacity: 0.75;
   background-color: #FFF;
   box-shadow: 0 0 10px black;
+
+   /* Make it so that venturing into the corners while hovering won't switch 
+      to another button. */
+  z-index: 91;
 }
 
 #controls button:active {
