@@ -65,8 +65,16 @@ io.sockets.on('connection', function (socket) {
   var randX = Math.floor((Math.random()*board.width)+1);
   var randY = Math.floor((Math.random()*board.height)+1);
   players[socket.id] = {
-    position: { x: randX,
-                y: randY }, // TODO: Decide where to spawn based on world state (away from other players?).
+    position: (function() {
+      for (var id in players) {
+        position = players[id].position;
+        while (position.x == randX && position.y == randY) {
+          randX = Math.floor((Math.random()*board.width)+1);
+          randY = Math.floor((Math.random()*board.height)+1);
+        }
+      } // TODO: Check tails
+      return {x: randX, y: randY};
+    })(), // TODO: Decide where to spawn based on world state (away from other players?).
     team: (function() {
       var teams = {};
       for (var player in players) {
