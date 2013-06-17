@@ -5,19 +5,44 @@ html, body {
   overflow: hidden;
 }
 
+/* Use ems as colored boxes. */
+em.red,
+em.green,
+em.blue {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  vertical-align: middle;
+  border: 1px solid #000;
+  margin: 0 0.2em;
+  color: transparent;
+}
+em.red {
+  background-color: #f65;
+}
+em.green {
+  background-color: #5d9;
+}
+em.blue {
+  background-color: #4be;
+}
+
 /* Color some UI elements based on your team's color. */
+html.team-red,
 .team-red body > header,
-.team-red #controls button:active,
+.team-red #controls button:active, .team-red #controls button.active,
 #grid .red {
   background-color: #C0392B;
 }
+html.team-green,
 .team-green body > header,
-.team-green #controls button:active,
+.team-green #controls button:active, .team-green #controls button.active,
 #grid .green {
   background-color: #27AE60;
 }
+html.team-blue,
 .team-blue body > header,
-.team-blue #controls button:active,
+.team-blue #controls button:active, .team-blue #controls button.active,
 #grid .blue {
   background-color: #2980B9;
 }
@@ -25,24 +50,35 @@ html, body {
 body > header {
   font-family: Helvetica, Arial, sans-serif;
   color: #FFF;
-  padding: 5px;
   box-sizing: border-box;
   position: relative;
   z-index: 100;
+  box-shadow: 0 0 10px black;
+  background-color: #666;
 }
-  body > header #title {
-    margin: 0;
-    text-align: center;
-  }
+
+#title {
+  margin: 0;
+}
 
 #rules h1 {
   display: none;
 }
 
+#rules ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+    #rules li {
+      line-height: 2;
+    }
+
 #game {
   position: relative;
   height: 100%;
   box-sizing: border-box;
+  box-shadow: 0 0 10px black;
 }
   #game > h1 {
     display: none;
@@ -54,6 +90,8 @@ body > header {
   position: absolute;
   top: 50%;
   left: 50%;
+
+  background-color: #FFF;
 }
 
 #grid .sq {
@@ -65,7 +103,6 @@ body > header {
   margin-top: -1px;
 
   font-family: monospace;
-  font-size: 12px;
   color: rgba(0, 0, 0, 0.333);
 }
   #grid .sq.first-column {
@@ -93,7 +130,7 @@ body > header {
 
 #controls button {
   position: absolute;
-  opacity: 0.5;
+  opacity: 0.25;
   background: none;
   border: 0;
   font-size: 4em;
@@ -102,18 +139,16 @@ body > header {
   box-sizing: border-box;
 }
 
-#controls button:hover {
-  opacity: 0.75;
-  background-color: #FFF;
+#controls button:hover,
+#controls button:active,
+#controls button.active {
+  opacity: 0.5;
+  background-color: #EEE;
   box-shadow: 0 0 10px black;
 
    /* Make it so that venturing into the corners while hovering won't switch 
       to another button. */
   z-index: 91;
-}
-
-#controls button:active {
-  color: #FFF;
 }
 
 #controls .left, #controls .right {
@@ -153,23 +188,47 @@ body > header {
     right: 0;
     height: 100%;
     width: 20%;
+    text-align: center;
+    font-size: 0.8em;
+    padding: 1em 0.5em;
   }
   #game {
     width: 80%;
+  }
+  #rules ul {
+    position: absolute;
+    bottom: 1em;
+    width: 100%;
   }
 }
 
 @media all and (orientation: portrait) {
   body > header {
     height: 20%;
+    width: 100%;
+    padding: 0.5em 1em;
   }
   #game {
     height: 80%;
   }
+  #title {
+    float: left;
+    line-height: 3;
+  }
+  #rules {
+    float: right;
+  }
 }
 
-/* Adjust grid/cell size based on screen size. Generally we try to keep the 
-   grid at around 1.6 * the viewport width. */
+/* Adjust grid/cell and font size based on screen size. Generally we try to 
+   keep the grid at around 1.6 * the viewport width. */
+html {
+  font-size: 12px;
+}
+#game {
+  max-height: 500px;
+  max-width: 500px;
+}
 #grid {
   height: 500px;
   width: 500px;
@@ -177,6 +236,13 @@ body > header {
   margin-top: -250px;
 }
 @media all and (min-width: 500px) {
+  html {
+    font-size: 15px;
+  }
+  #game {
+    max-height: 800px;
+    max-width: 800px;
+  }
   #grid {
     height: 800px;
     width: 800px;
@@ -185,6 +251,13 @@ body > header {
   }
 }
 @media all and (min-width: 800px) {
+  html {
+    font-size: 22px;
+  }
+  #game {
+    max-height: 1280px;
+    max-width: 1280px;
+  }
   #grid {
     height: 1280px;
     width: 1280px;
@@ -193,18 +266,17 @@ body > header {
   }
 }
 @media all and (min-width: 1280px) {
+  html {
+    font-size: 30px;
+  }
+  #game {
+    max-height: 2048px;
+    max-width: 2048px;
+  }
   #grid {
     height: 2048px;
     width: 2048px;
     margin-left: -1024px;
     margin-top: -1024px;
-  }
-}
-@media all and (min-width: 2048px) {
-  #grid {
-    height: 3276.8px;
-    width: 3276.8px;
-    margin-left: -1638.4px;
-    margin-top: -1638.4px;
   }
 }

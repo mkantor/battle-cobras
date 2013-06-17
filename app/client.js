@@ -1,4 +1,4 @@
-var me = undefined; // TODO: Player object?
+var me = undefined;
 
 $(document).ready(function() {
 
@@ -34,35 +34,41 @@ $(document).ready(function() {
 
   var socketIO = io.connect(':3000');
 
-  socketIO.on('update', function(data) {
+  socketIO.on('update', function socketUpdateHandler(data) {
     me = data.players[socketIO.socket.sessionid];
     $('html').addClass('team-' + me.team);
     Board.update(data);
   });
 
-  $('#controls .move').click(function(event) {
+  $('#controls .move').click(function moveClickHandler(event) {
     emitMove($(this).data('direction'));
   });
 
   // Allow using arrow keys for movement.
-  $(document).keydown(function(event) {
+  $(document).keydown(function keydownHandler(event) {
+    var direction;
     switch(event.which) {
       case 37: // left arrow
-        emitMove('left');
+        direction = 'left';
       break;
 
       case 38: // up arrow
-        emitMove('up');
-        //socketIO.emit('move', { direction: 'up' });
+        direction = 'up';
       break;
 
       case 39: // right arrow
-        emitMove('right');
+        direction = 'right';
       break;
 
       case 40: // down arrow
-        emitMove('down');
+        direction = 'down';
       break;
     }
+
+    emitMove(direction);
+    $('#controls button.' + direction).addClass('active');
+  });
+  $(document).keyup(function keyupHandler() {
+    $('#controls button').removeClass('active');
   });
 });
