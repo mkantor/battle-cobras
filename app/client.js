@@ -28,7 +28,7 @@ $(document).ready(function() {
       }
     }
     socketIO.emit('move', { direction: dir });
-  }
+  };
 
   Board.initialize();
 
@@ -65,8 +65,10 @@ $(document).ready(function() {
       break;
     }
 
-    emitMove(direction);
-    $('#controls button.' + direction).addClass('active');
+    if(direction) {
+      emitMove(direction);
+      $('#controls button.' + direction).addClass('active');
+    }
   });
   $(document).keyup(function keyupHandler() {
     $('#controls button').removeClass('active');
