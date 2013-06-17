@@ -34,7 +34,11 @@ $(document).ready(function() {
 
   var socketIO = io.connect(':3000');
 
-  socketIO.on('update', function socketUpdateHandler(data) {
+  socketIO.on('update', socketUpdateHandler);
+  function socketUpdateHandler(data) {
+    // Only handle one update at a time for performance reasons.
+    socketIO.removeListener('update', socketUpdateHandler);
+
     me = data.players[socketIO.socket.sessionid];
     if(me && me.alive) {
       $(document.documentElement).addClass('team-' + me.team);
@@ -43,7 +47,10 @@ $(document).ready(function() {
       $(document.documentElement).removeClass();
     }
     Board.update(data);
-  });
+
+    // After done handling this update, reattach the handler.
+    socketIO.on('update', socketUpdateHandler);
+  };
 
   /* User input. */
   $('#controls .move').click(function moveClickHandler(event) {
